@@ -1,15 +1,16 @@
-cityes = set()
+from random import shuffle
 
+cityes = []
 with open('Cityes_db.txt', encoding='utf-8') as file:
-    for i in file.readlines():
-        cityes.add(i[:-1])
+    for line in file.readlines():
+        cityes.append(line[:-1])
 
 
 class Cityes:
     cityes_in_game = []
     last_letter = []
 
-    def __init__(self, enter_city):
+    def __init__(self, enter_city: str):
         self.user_city = enter_city.capitalize()
         self.letter = self.user_city[-1].upper()
 
@@ -25,19 +26,28 @@ class Cityes:
         if self.user_city not in self.cityes_in_game:
             self.cityes_in_game.append(self.user_city)
             for i in cityes:
-                i_cut = self.check_letter(i)
-                if i_cut not in self.cityes_in_game and self.user_city[-1].lower() == i_cut[0].lower():
-                    self.cityes_in_game.append(i_cut)
-                    self.last_letter.append(i_cut[-1].upper())
+                new_i = self.check_letter(i)
+                if new_i not in self.cityes_in_game and self.user_city[-1].lower() == new_i[0].lower():
+                    self.cityes_in_game.append(new_i)
+                    self.last_letter.append(new_i[-1].upper())
                     return i, True
             return f'Я больше не знаю городов на букву "{self.letter}". Вы победили', False
         return 'Такой город уже был', True
 
 
 game = True
+shuffle(cityes)
+who = input("Кто начинает? Ты - 1, Я - любой символ ")
+if who != str(1):
+    first_city = cityes[0]
+    print(first_city)
+    first_city = Cityes.check_letter(first_city)
+    Cityes.cityes_in_game.append(first_city)
+    Cityes.last_letter.append(first_city[-1].upper())
+
 while game:
-    city = input('Введите название города: ')
-    check_city = Cityes.check_letter(city)
-    c = Cityes(check_city)
-    response, game = c.check_city()
+    your_city = input('Введите название города: ')
+    check_city = Cityes.check_letter(your_city)
+    city = Cityes(check_city)
+    response, game = city.check_city()
     print(response)
