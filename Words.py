@@ -1,10 +1,8 @@
-# with open('Words_db.txt', 'r', encoding='utf-8') as f:
-#     comp_words = list(set(f.read().split()))
 comp_words = []
 with open('Words_db.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         comp_words.append(line[:-1])
-print(comp_words)
+
 
 class Word:
     answer = []
@@ -35,12 +33,12 @@ class Word:
         return self.long_word
 
 
-w = Word("контрацептив")
+word_for_game = input('Введите слово: ')
 
-print(w)
-user = input().split()
-print(w.search_words())
-print(w.check_user_words(user))
+game = Word(word_for_game)
+user = input('Ваши слова (через пробел): ').split()
+print(game.search_words())
+print(game.check_user_words(user))
 
 
 with open('Words_db.txt', 'a', encoding='utf-8') as f:
@@ -48,6 +46,3 @@ with open('Words_db.txt', 'a', encoding='utf-8') as f:
         if i not in comp_words:
             f.write('\n')
             f.writelines(i)
-
-
-
