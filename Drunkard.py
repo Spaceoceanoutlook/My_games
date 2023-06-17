@@ -60,8 +60,8 @@ class Deck:
             counter += 1
             if counter % 18 == 0:
                 print('Тусую карты')
-                Deck.mix(player1.deck)
-                Deck.mix(player2.deck)
+                Deck.mix(pl1)
+                Deck.mix(pl2)
             if len(pl1) == 0 and len(list_for_noun) > 0:
                 print('У Игрока 1 нет карт и при этом ничья. Берется карта у Игрока 2')
                 pl1.append(pl2[0])
