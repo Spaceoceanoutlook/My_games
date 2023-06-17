@@ -46,3 +46,5 @@ with open('Words_db.txt', 'a', encoding='utf-8') as f:
         if i not in comp_words:
             f.write('\n')
             f.writelines(i)
+
+end = input('Нажмите Enter чтобы закончить игру')
