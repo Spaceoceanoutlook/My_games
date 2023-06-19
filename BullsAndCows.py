@@ -1,6 +1,5 @@
 from random import choice
 
-
 base = ["корова", "молоко", "стекло", "лопата", "корыто", "дорога", "синьор", "ракета", "ворота", "ананас"]
 
 word_from_base = choice(base).lower()
@@ -13,10 +12,16 @@ class BullsAndCows:
         self.user_word = user_word.lower()
 
     def check(self):
+        a = []
         if self.user_word == word_from_base:
             return 'Вы угадали!', False
         else:
-            return 'Попробуйте еще раз', True
+            for i, j in zip(self.user_word, word_from_base):
+                if i == j:
+                    a.append('Bull')
+                elif i in word_from_base:
+                    a.append('Cow')
+            return a, True
 
 
 status = True
