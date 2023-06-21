@@ -1,9 +1,7 @@
 from random import choice
 
-base = []
 with open('BullsAndCows_db.txt', 'r', encoding='utf-8') as file:
-    for line in file:
-        base.append(line[:-1])
+    base = [line[:-1] for line in file]
 
 word_from_base = choice(base).lower()
 print(f"Какое слово из {len(word_from_base)} букв я загадал?")

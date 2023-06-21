@@ -1,7 +1,5 @@
-comp_words = []
 with open('Words_db.txt', 'r', encoding='utf-8') as f:
-    for line in f.readlines():
-        comp_words.append(line[:-1])
+    comp_words = [line[:-1] for line in f.readlines()]
 
 
 class Word:

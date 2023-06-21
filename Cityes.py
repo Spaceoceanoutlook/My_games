@@ -1,9 +1,7 @@
 from random import shuffle
 
-cityes = []
 with open('Cityes_db.txt', encoding='utf-8') as file:
-    for line in file.readlines():
-        cityes.append(line[:-1])
+    cityes = [line[:-1] for line in file.readlines()]
 
 
 class Cityes:
