@@ -16,43 +16,35 @@ class Matrix:
             print()
 
     def brain(self):
-        c = 0
-        s = 0
-        if_not_game_for_player = []
-        if_not_game_for_comp = []
-        for i in self.win_tuple:
-            for j in i:
-                if j in self.comp_cage:
-                    s += 1
-                else:
-                    if_not_game_for_comp.append(j)
-            if s == 2 and if_not_game_for_comp[0] not in self.player_cage:
-                comp_turn = if_not_game_for_comp[0]
-                self.comp_cage.append(comp_turn)
-                if_not_game_for_comp.clear()
-                return
-            s = 0
-            if_not_game_for_player.clear()
-            if_not_game_for_comp.clear()
-        for i in self.win_tuple:
-            for j in i:
-                if j in self.player_cage:
-                    c += 1
-                else:
-                    if_not_game_for_player.append(j)
-            if c == 2 and if_not_game_for_player[0] not in self.comp_cage:
-                comp_turn = if_not_game_for_player[0]
-                self.comp_cage.append(comp_turn)
-                if_not_game_for_player.clear()
-                return
-            c = 0
-            if_not_game_for_player.clear()
-            if_not_game_for_comp.clear()
         comp_list = [i for i in range(1, 9) if i not in self.player_cage and i not in self.comp_cage]
         if len(comp_list) > 0:
             comp_turn = choice(comp_list)
-            self.comp_cage.append(comp_turn)
+        else:
             return
+        count_comp = 0
+        sum_comp = 0
+        count_user = 0
+        sum_user = 0
+        for i in self.win_tuple:
+            for j in i:
+                if j in self.comp_cage:
+                    count_comp += 1
+                    sum_comp += j
+                    if count_comp == 2 and (sum(i) - sum_comp) not in self.player_cage:
+                        comp_turn = sum(i) - sum_comp
+                        self.comp_cage.append(comp_turn)
+                        return
+                if j in self.player_cage:
+                    count_user += 1
+                    sum_user += j
+                    if count_user == 2 and (sum(i) - sum_user) not in self.comp_cage:
+                        comp_turn = sum(i) - sum_user
+            count_comp = 0
+            sum_comp = 0
+            count_user = 0
+            sum_user = 0
+        self.comp_cage.append(comp_turn)
+        return
 
     def game_round(self, num):
         self.player_cage.append(num)
@@ -69,17 +61,24 @@ class Matrix:
                 c += 1
             print()
 
-    def win(self):
+    def win_player(self):
         for i in self.win_tuple:
             if set(i) <= set(self.player_cage):
                 print('ПОБЕДА ИГРОКА')
                 return False
-            elif set(i) <= set(self.comp_cage):
+        return True
+
+    def win_comp(self):
+        for i in self.win_tuple:
+            if set(i) <= set(self.comp_cage):
                 print('ПОБЕДА КОМПА')
                 return False
-            elif len(self.player_cage) + len(self.comp_cage) == 9:
-                print('НИЧЬЯ')
-                return False
+        return True
+
+    def standoff(self):
+        if len(self.player_cage) + len(self.comp_cage) == 9:
+            print('НИЧЬЯ')
+            return False
         return True
 
 
@@ -88,5 +87,5 @@ m.create_matrix()
 while True:
     player_num = int(input('ТВОЙ ХОД: '))
     m.game_round(player_num)
-    if not m.win():
+    if not m.win_player() or not m.win_comp() or not m.standoff():
         break
