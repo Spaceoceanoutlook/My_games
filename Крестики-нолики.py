@@ -21,10 +21,7 @@ class Matrix:
             comp_turn = choice(comp_list)
         else:
             return
-        count_comp = 0
-        sum_comp = 0
-        count_user = 0
-        sum_user = 0
+        count_comp = sum_comp = count_user = sum_user = 0
         for i in self.win_tuple:
             for j in i:
                 if j in self.comp_cage:
@@ -39,10 +36,7 @@ class Matrix:
                     sum_user += j
                     if count_user == 2 and (sum(i) - sum_user) not in self.comp_cage:
                         comp_turn = sum(i) - sum_user
-            count_comp = 0
-            sum_comp = 0
-            count_user = 0
-            sum_user = 0
+            count_comp = sum_comp = count_user = sum_user = 0
         self.comp_cage.append(comp_turn)
         return
 
@@ -85,7 +79,19 @@ class Matrix:
 m = Matrix()
 m.create_matrix()
 while True:
-    player_num = int(input('ТВОЙ ХОД: '))
+    while True:
+        player_num = input('ТВОЙ ХОД: ')
+        try:
+            player_num = int(player_num)
+            if player_num not in [i for i in range(1, 10)]:
+                print('ЦИФРА ХОДА ДОЛЖНА БЫТЬ ОТ 1 ДО 9')
+                continue
+            if player_num in m.player_cage or player_num in m.comp_cage:
+                print('ЭТА КЛЕТКА ЗАНЯТА')
+                continue
+            break
+        except ValueError:
+            print('ХОД ДОЛЖЕН БЫТЬ ЦИФРОЙ')
     m.game_round(player_num)
     if not m.win_player() or not m.win_comp() or not m.standoff():
         break
