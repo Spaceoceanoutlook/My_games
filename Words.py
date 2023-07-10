@@ -11,7 +11,9 @@ class Word:
     def search_words(self):
         for word in comp_words:
             for symbol in word:
-                if symbol not in self.long_word and word.count(symbol) > self.long_word.count(symbol):
+                if symbol in self.long_word and self.long_word.count(symbol) >= word.count(symbol):
+                    pass
+                else:
                     break
             else:
                 self.answer.append(word)
@@ -42,7 +44,7 @@ print(game.check_user_words(user))
 with open('Words_db.txt', 'a', encoding='utf-8') as f:
     for i in user:
         if i not in comp_words:
-            f.write('\n')
             f.writelines(i)
+            f.write('\n')
 
 end = input('Нажмите Enter чтобы закончить игру')
