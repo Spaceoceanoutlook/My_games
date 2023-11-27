@@ -36,7 +36,7 @@ class Cityes:
 game = True
 shuffle(cityes)
 who = input("Кто начинает? Ты - 1, Я - любой символ ")
-if who != str(1):
+if who == str(1):
     first_city = cityes[0]
     print(first_city)
     first_city = Cityes.check_letter(first_city)
